@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRT TV Audio Effect — Setup & Usage Guide</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a2e;
+            --bg-secondary: #16213e;
+            --bg-tertiary: #0f0f23;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --accent: #00d9ff;
+            --accent-dim: #0891b2;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --code-bg: #0d1117;
+            --border: #27272a;
+        }
+ 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+ 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0;
+        }
+ 
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+ 
+        header {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-bottom: 3px solid var(--accent);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+ 
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+ 
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+ 
+        h2 {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-dim);
+        }
+ 
+        h3 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin: 2rem 0 1rem 0;
+        }
+ 
+        h4 {
+            color: var(--accent-dim);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+ 
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+ 
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+ 
+        a:hover {
+            text-decoration: underline;
+        }
+ 
+        code {
+            background: var(--code-bg);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+ 
+        pre {
+            background: var(--code-bg);
+            padding: 1.25rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border);
+        }
+ 
+        pre code {
+            padding: 0;
+            background: none;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+ 
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+ 
+        li {
+            margin-bottom: 0.5rem;
+        }
+ 
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+ 
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+ 
+        th {
+            background: var(--bg-tertiary);
+            color: var(--accent);
+            font-weight: 600;
+        }
+ 
+        td {
+            color: var(--text-secondary);
+        }
+ 
+        tr:last-child td {
+            border-bottom: none;
+        }
+ 
+        .note {
+            background: rgba(0, 217, 255, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+ 
+        .note-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+ 
+        .warning {
+            background: rgba(245, 158, 11, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+ 
+        .warning .note-title {
+            color: var(--warning);
+        }
+ 
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--error);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+ 
+        .error .note-title {
+            color: var(--error);
+        }
+ 
+        .success {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+ 
+        .success .note-title {
+            color: var(--success);
+        }
+ 
+        .toc {
+            background: var(--bg-secondary);
+            padding: 1.5rem 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+        }
+ 
+        .toc h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+ 
+        .toc ol {
+            margin-bottom: 0;
+        }
+ 
+        .toc a {
+            color: var(--text-secondary);
+        }
+ 
+        .toc a:hover {
+            color: var(--accent);
+        }
+ 
+        .step-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+ 
+        .folder-structure {
+            background: var(--code-bg);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+ 
+        .folder-structure .folder {
+            color: var(--accent);
+        }
+ 
+        .folder-structure .file {
+            color: var(--success);
+        }
+ 
+        .keyboard {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.15rem 0.5rem;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            box-shadow: 0 2px 0 var(--border);
+        }
+ 
+        /* Tab Styles */
+        .tab-group {
+            margin: 1.5rem 0;
+        }
+ 
+        .tab-buttons {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border);
+        }
+ 
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            margin-bottom: -2px;
+        }
+ 
+        .tab-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+ 
+        .tab-btn.active {
+            background: var(--bg-tertiary);
+            color: var(--accent);
+            border-color: var(--accent);
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+ 
+        .tab-panel {
+            display: none;
+            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+        }
+ 
+        .tab-panel.active {
+            display: block;
+        }
+ 
+        .tab-panel h4:first-child {
+            margin-top: 0;
+        }
+ 
+        .output-example {
+            background: #000;
+            color: #0f0;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+ 
+        footer {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+ 
+        footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+ 
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+ 
+            header {
+                padding: 2rem 1rem;
+            }
+ 
+            header h1 {
+                font-size: 1.8rem;
+            }
+ 
+            h2 {
+                font-size: 1.5rem;
+            }
+ 
+            pre {
+                padding: 1rem;
+                font-size: 0.8rem;
+            }
+ 
+            table {
+                font-size: 0.85rem;
+            }
+ 
+            th, td {
+                padding: 0.5rem;
+            }
+ 
+            .tab-buttons {
+                flex-wrap: wrap;
+            }
+ 
+            .tab-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+ 
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+ 
+            .container {
+                max-width: 100%;
+            }
+ 
+            header {
+                background: none;
+                border-bottom: 2px solid #333;
+            }
+ 
+            header h1 {
+                color: #333;
+                text-shadow: none;
+            }
+ 
+            h2, h3, h4 {
+                color: #333;
+            }
+ 
+            pre, code {
+                background: #f4f4f4;
+                color: #333;
+            }
+ 
+            .note, .warning, .error, .success {
+                background: #f9f9f9;
+            }
+ 
+            .tab-panel {
+                display: block !important;
+                border: 1px solid #ccc;
+                margin-bottom: 1rem;
+            }
+ 
+            .tab-buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📺 CRT TV Audio Effect</h1>
+        <p>Transform any audio to sound like a 1960s television — VS Code Setup Guide</p>
+    </header>
+ 
+    <div class="container">
+        <nav class="toc">
+            <h3>📋 Table of Contents</h3>
+            <ol>
+                <li><a href="#requirements">Requirements</a></li>
+                <li><a href="#install-vscode">Install Visual Studio Code</a></li>
+                <li><a href="#install-python">Install Python</a></li>
+                <li><a href="#install-ffmpeg">Install FFmpeg</a></li>
+                <li><a href="#setup-vscode">Set Up VS Code for Python</a></li>
+                <li><a href="#create-project">Create the Project</a></li>
+                <li><a href="#install-packages">Install Python Packages</a></li>
+                <li><a href="#run-script">Run the Script</a></li>
+                <li><a href="#customize">Customizing the Sound</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#quick-reference">Quick Reference</a></li>
+            </ol>
+        </nav>
+ 
+        <!-- SECTION 1: REQUIREMENTS -->
+        <section id="requirements">
+            <h2>1. Requirements</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Component</th>
+                        <th>Minimum Version</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>VS Code</td>
+                        <td>1.80+</td>
+                        <td>Free from Microsoft</td>
+                    </tr>
+                    <tr>
+                        <td>Python</td>
+                        <td>3.9+</td>
+                        <td>Works up to 3.14+</td>
+                    </tr>
+                    <tr>
+                        <td>FFmpeg</td>
+                        <td>4.0+</td>
+                        <td>Required for audio encoding/decoding</td>
+                    </tr>
+                    <tr>
+                        <td>NumPy</td>
+                        <td>1.20+</td>
+                        <td>Installed via pip</td>
+                    </tr>
+                    <tr>
+                        <td>SciPy</td>
+                        <td>1.7+</td>
+                        <td>Installed via pip</td>
+                    </tr>
+                    <tr>
+                        <td>Disk Space</td>
+                        <td>~500 MB</td>
+                        <td>For VS Code + dependencies</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+ 
+        <!-- SECTION 2: INSTALL VS CODE -->
+        <section id="install-vscode">
+            <h2>2. Install Visual Studio Code</h2>
+ 
+            <div class="tab-group" data-tab-group="vscode">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="vscode-windows">Windows</button>
+                    <button class="tab-btn" data-tab="vscode-macos">macOS</button>
+                    <button class="tab-btn" data-tab="vscode-linux">Linux</button>
+                </div>
+ 
+                <div id="vscode-windows" class="tab-panel active">
+                    <h4>Windows (x64 or ARM64)</h4>
+                    <ol>
+                        <li>Go to: <a href=https://code.visualstudio.com/download target="_blank">https://code.visualstudio.com/download</a></li>
+                        <li>Click <strong>"Windows"</strong> to download
+                            <ul>
+                                <li>For ARM64 devices (Surface Pro X, etc.), click the arrow and select <strong>"ARM64"</strong></li>
+                            </ul>
+                        </li>
+                        <li>Run the downloaded installer (<code>VSCodeUserSetup-xxx.exe</code>)</li>
+                        <li>During installation, <strong>check these boxes:</strong>
+                            <ul>
+                                <li>☑️ Add "Open with Code" action to Windows Explorer file context menu</li>
+                                <li>☑️ Add "Open with Code" action to Windows Explorer directory context menu</li>
+                                <li>☑️ Add to PATH (requires shell restart)</li>
+                            </ul>
+                        </li>
+                        <li>Click <strong>"Install"</strong> and wait for completion</li>
+                        <li>Launch VS Code</li>
+                    </ol>
+                </div>
+ 
+                <div id="vscode-macos" class="tab-panel">
+                    <h4>macOS</h4>
+                    <p><strong>Option 1 — Direct Download:</strong></p>
+                    <ol>
+                        <li>Go to: <a href=https://code.visualstudio.com/download target="_blank">https://code.visualstudio.com/download</a></li>
+                        <li>Click <strong>"Mac"</strong> (Universal build works for Intel and Apple Silicon)</li>
+                        <li>Open the downloaded <code>.zip</code> file</li>
+                        <li>Drag <strong>"Visual Studio Code.app"</strong> to your Applications folder</li>
+                        <li>Launch VS Code from Applications</li>
+                    </ol>
+ 
+                    <p><strong>Option 2 — Using Homebrew:</strong></p>
+                    <pre><code>brew install --cask visual-studio-code</code></pre>
+                </div>
+ 
+                <div id="vscode-linux" class="tab-panel">
+                    <h4>Ubuntu/Debian</h4>
+                    <p><strong>Option 1 — Using snap:</strong></p>
+                    <pre><code>sudo snap install code --classic</code></pre>
+ 
+                    <p><strong>Option 2 — Using apt:</strong></p>
+                    <pre><code>sudo apt update
+sudo apt install software-properties-common apt-transport-https wget
+wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+sudo apt update
+sudo apt install code</code></pre>
+ 
+                    <h4>Fedora</h4>
+                    <pre><code>sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+sudo sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+sudo dnf install code</code></pre>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- SECTION 3: INSTALL PYTHON -->
+        <section id="install-python">
+            <h2>3. Install Python</h2>
+ 
+            <div class="tab-group" data-tab-group="python">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="python-windows">Windows</button>
+                    <button class="tab-btn" data-tab="python-macos">macOS</button>
+                    <button class="tab-btn" data-tab="python-linux">Linux</button>
+                </div>
+ 
+                <div id="python-windows" class="tab-panel active">
+                    <h4>Windows (x64 or ARM64)</h4>
+                    <ol>
+                        <li>Go to: <a href=https://www.python.org/downloads/windows/ target="_blank">https://www.python.org/downloads/windows/</a></li>
+                        <li>Download the installer:
+                            <ul>
+                                <li><strong>Windows x64:</strong> Download "Windows installer (64-bit)"</li>
+                                <li><strong>Windows ARM64:</strong> Download "Windows installer (ARM64)"</li>
+                            </ul>
+                        </li>
+                        <li>Run the installer</li>
+                    </ol>
+                    
+                    <div class="warning">
+                        <div class="note-title">⚠️ CRITICAL STEP</div>
+                        <p>Check the box <strong>"Add python.exe to PATH"</strong> at the bottom of the installer!</p>
+                    </div>
+ 
+                    <ol start="4">
+                        <li>Also check: <strong>"Use admin privileges when installing py.exe"</strong></li>
+                        <li>Click <strong>"Install Now"</strong></li>
+                        <li>When complete, click <strong>"Disable path length limit"</strong> if prompted</li>
+                        <li>Close the installer</li>
+                    </ol>
+ 
+                    <p><strong>Verify installation</strong> — Open a NEW PowerShell window and run:</p>
+                    <pre><code>python --version</code></pre>
+                    <p>You should see something like: <code>Python 3.12.x</code></p>
+                </div>
+ 
+                <div id="python-macos" class="tab-panel">
+                    <h4>macOS</h4>
+                    <ol>
+                        <li>Install Homebrew (if not already installed):
+                            <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+                        </li>
+                        <li>Install Python:
+                            <pre><code>brew install python</code></pre>
+                        </li>
+                        <li>Verify:
+                            <pre><code>python3 --version</code></pre>
+                        </li>
+                    </ol>
+                </div>
+ 
+                <div id="python-linux" class="tab-panel">
+                    <h4>Ubuntu/Debian</h4>
+                    <pre><code>sudo apt update
+sudo apt install python3 python3-pip python3-venv
+python3 --version</code></pre>
+ 
+                    <h4>Fedora</h4>
+                    <pre><code>sudo dnf install python3 python3-pip
+python3 --version</code></pre>
+ 
+                    <h4>Arch Linux</h4>
+                    <pre><code>sudo pacman -S python python-pip
+python --version</code></pre>
+                </div>
+            </div>
+        </section>
+ 
+        <!-- SECTION 4: INSTALL FFMPEG -->
+        <section id="install-ffmpeg">
+            <h2>4. Install FFmpeg</h2>
+            <p>FFmpeg is required for reading and writing audio files.</p>
+ 
+            <div class="tab-group" data-tab-group="ffmpeg">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="ffmpeg-windows">Windows</button>
+                    <button class="tab-btn" data-tab="ffmpeg-macos">macOS</button>
+                    <button class="tab-btn" data-tab="ffmpeg-linux">Linux</button>
+                </div>
+ 
+                <div id="ffmpeg-windows" class="tab-panel active">
+                    <h4>Option A: Using winget (Easiest)</h4>
+                    <ol>
+                        <li>Open <strong>PowerShell</strong> or <strong>Terminal</strong></li>
+                        <li>Run:
+                            <pre><code>winget install ffmpeg</code></pre>
+                        </li>
+                        <li><strong>Close PowerShell completely</strong> after installation</li>
+                    </ol>
+ 
+                    <h4>Option B: Manual Installation</h4>
+                    <ol>
+                        <li>Go to: <a href=https://www.gyan.dev/ffmpeg/builds/ target="_blank">https://www.gyan.dev/ffmpeg/builds/</a></li>
+                        <li>Under "Release builds", download <strong>"ffmpeg-release-essentials.zip"</strong></li>
+                        <li>Extract the ZIP file</li>
+                        <li>Rename the extracted folder to <code>ffmpeg</code></li>
+                        <li>Move the folder to <code>C:\</code> (so you have <code>C:\ffmpeg</code>)</li>
+                        <li>Add to PATH:
+                            <ol type="a">
+                                <li>Press <span class="keyboard">Win</span> + <span class="keyboard">X</span> → Select "System"</li>
+                                <li>Click "Advanced system settings"</li>
+                                <li>Click "Environment Variables"</li>
+                                <li>Under "System variables", find "Path" and click "Edit"</li>
+                                <li>Click "New"</li>
+                                <li>Type: <code>C:\ffmpeg\bin</code></li>
+                                <li>Click "OK" on all windows</li>
+                            </ol>
+                        </li>
+                        <li><strong>Close and reopen</strong> your terminal</li>
+                    </ol>
+ 
+                    <h4>Option C: Native ARM64 Build (for best performance on ARM devices)</h4>
+                    <ol>
+                        <li>Go to: <a href=https://github.com/AnimMouse/ffmpeg-autobuild/releases target="_blank">https://github.com/AnimMouse/ffmpeg-autobuild/releases</a></li>
+                        <li>Look for a file containing <code>win-arm64</code> in the name</li>
+                        <li>Download and extract it</li>
+                        <li>Follow steps 4-7 from Option B above</li>
+                    </ol>
+                </div>
+ 
+                <div id="ffmpeg-macos" class="tab-panel">
+                    <h4>Using Homebrew</h4>
+                    <pre><code>brew install ffmpeg</code></pre>
+                </div>
+ 
+                <div id="ffmpeg-linux" class="tab-panel">
+                    <h4>Ubuntu/Debian</h4>
+                    <pre><code>sudo apt update
+sudo apt install ffmpeg</code></pre>
+ 
+                    <h4>Fedora</h4>
+                    <pre><code>sudo dnf install ffmpeg</code></pre>
+ 
+                    <h4>Arch Linux</h4>
+                    <pre><code>sudo pacman -S ffmpeg</code></pre>
+                </div>
+            </div>
+ 
+            <div class="success">
+                <div class="note-title">✅ Verify FFmpeg Installation</div>
+                <p>Open a new terminal and run:</p>
+                <pre><code>ffmpeg -version</code></pre>
+                <p>You should see version information, not an error.</p>
+            </div>
+        </section>
+ 
+        <!-- SECTION 5: SETUP VS CODE FOR PYTHON -->
+        <section id="setup-vscode">
+            <h2>5. Set Up VS Code for Python</h2>
+ 
+            <h3>Install the Python Extension</h3>
+            <ol>
+                <li>Open VS Code</li>
+                <li>Click the <strong>Extensions</strong> icon in the left sidebar<br>
+                    (or press <span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">X</span> on Windows/Linux, <span class="keyboard">Cmd</span>+<span class="keyboard">Shift</span>+<span class="keyboard">X</span> on macOS)</li>
+                <li>In the search box, type: <code>Python</code></li>
+                <li>Find <strong>"Python"</strong> by Microsoft (should be the first result)
+                    <ul>
+                        <li>It has a blue/yellow snake icon</li>
+                        <li>Should show millions of downloads</li>
+                    </ul>
+                </li>
+                <li>Click <strong>"Install"</strong></li>
+                <li>Wait for installation to complete</li>
+            </ol>
+ 
+            <h3>Verify Python is Detected</h3>
+            <ol>
+                <li>Press <span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">P</span> (Windows/Linux) or <span class="keyboard">Cmd</span>+<span class="keyboard">Shift</span>+<span class="keyboard">P</span> (macOS)<br>
+                    This opens the Command Palette</li>
+                <li>Type: <code>Python: Select Interpreter</code></li>
+                <li>Press <span class="keyboard">Enter</span></li>
+                <li>You should see your Python installation listed, for example:
+                    <ul>
+                        <li>Python 3.12.0 ('python')</li>
+                        <li>Python 3.14.0 64-bit</li>
+                    </ul>
+                </li>
+                <li>Click on your Python version to select it</li>
+            </ol>
+ 
+            <div class="note">
+                <div class="note-title">💡 No Python appearing?</div>
+                <ul>
+                    <li>Restart VS Code</li>
+                    <li>Make sure Python was installed with "Add to PATH" checked</li>
+                    <li>See Troubleshooting section</li>
+                </ul>
+            </div>
+ 
+            <h3>Recommended Extensions</h3>
+            <p>For a better experience, also install these:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Python</strong> (Microsoft)</td>
+                        <td>Required — syntax highlighting, IntelliSense, debugging</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pylance</strong> (Microsoft)</td>
+                        <td>Recommended — better code completion and type checking</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Python Indent</strong> (Kevin Rose)</td>
+                        <td>Optional — fixes Python indentation issues</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+ 
+        <!-- SECTION 6: CREATE PROJECT -->
+        <section id="create-project">
+            <h2>6. Create the Project</h2>
+ 
+            <h3><span class="step-number">1</span> Create Project Folder</h3>
+            <p>Create a new folder anywhere you like:</p>
+            <ul>
+                <li><strong>Windows:</strong> <code>C:\Users\YourName\Documents\CRT-Audio</code></li>
+                <li><strong>macOS:</strong> <code>~/Documents/CRT-Audio</code></li>
+                <li><strong>Linux:</strong> <code>~/Documents/CRT-Audio</code></li>
+            </ul>
+ 
+            <h3><span class="step-number">2</span> Open Folder in VS Code</h3>
+            <p><strong>Option 1 — From VS Code:</strong></p>
+            <ol>
+                <li>Open VS Code</li>
+                <li>Click <strong>File → Open Folder</strong></li>
+                <li>Navigate to your CRT-Audio folder</li>
+                <li>Click "Select Folder"</li>
+            </ol>
+            <p><strong>Option 2 — From File Explorer/Finder:</strong></p>
+            <ol>
+                <li>Right-click on your CRT-Audio folder</li>
+                <li>Select <strong>"Open with Code"</strong></li>
+            </ol>
+ 
+            <h3><span class="step-number">3</span> Create the Script File</h3>
+            <ol>
+                <li>In VS Code, look at the <strong>Explorer panel</strong> on the left<br>
+                    (if not visible, click the top icon or press <span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">E</span>)</li>
+                <li>Hover over the folder name "CRT-AUDIO" in the Explorer panel</li>
+                <li>Click the <strong>"New File"</strong> icon (page with a plus sign)</li>
+                <li>Type: <code>crt_tv_audio.py</code></li>
+                <li>Press <span class="keyboard">Enter</span></li>
+                <li>The file opens in the editor</li>
+            </ol>
+ 
+            <h3><span class="step-number">4</span> Paste the Script Code</h3>
+            <ol>
+                <li>Copy the entire Python script (provided separately)</li>
+                <li>In VS Code, click inside the empty <code>crt_tv_audio.py</code> file</li>
+                <li>Paste the code:
+                    <ul>
+                        <li>Windows/Linux: <span class="keyboard">Ctrl</span>+<span class="keyboard">V</span></li>
+                        <li>macOS: <span class="keyboard">Cmd</span>+<span class="keyboard">V</span></li>
+                    </ul>
+                </li>
+                <li>Save the file:
+                    <ul>
+                        <li>Windows/Linux: <span class="keyboard">Ctrl</span>+<span class="keyboard">S</span></li>
+                        <li>macOS: <span class="keyboard">Cmd</span>+<span class="keyboard">S</span></li>
+                    </ul>
+                </li>
+            </ol>
+ 
+            <h3><span class="step-number">5</span> Add Your Audio File</h3>
+            <ol>
+                <li>Find your MP3 file in File Explorer/Finder</li>
+                <li>Copy it to your CRT-Audio folder</li>
+                <li>Rename it to: <code>input.mp3</code><br>
+                    (or change <code>INPUT_FILENAME</code> in the script to match your filename)</li>
+            </ol>
+ 
+            <h3><span class="step-number">6</span> Verify Project Structure</h3>
+            <p>Your VS Code Explorer panel should show:</p>
+            <div class="folder-structure">
+                <span class="folder">CRT-AUDIO/</span><br>
+                ├── <span class="file">crt_tv_audio.py</span><br>
+                └── <span class="file">input.mp3</span>
+            </div>
+        </section>
+ 
+        <!-- SECTION 7: INSTALL PACKAGES -->
+        <section id="install-packages">
+            <h2>7. Install Python Packages</h2>
+ 
+            <h3>Open the Integrated Terminal</h3>
+            <ol>
+                <li>In VS Code, open the terminal:
+                    <ul>
+                        <li>Windows/Linux: Press <span class="keyboard">Ctrl</span>+<span class="keyboard">`</span> (backtick, below Escape key)</li>
+                        <li>macOS: Press <span class="keyboard">Cmd</span>+<span class="keyboard">`</span></li>
+                        <li>Or click: <strong>View → Terminal</strong></li>
+                    </ul>
+                </li>
+                <li>The terminal opens at the bottom of VS Code</li>
+                <li>Make sure you're in your project folder — the prompt should show your folder path</li>
+            </ol>
+ 
+            <h3>Install NumPy and SciPy</h3>
+            <p>In the VS Code terminal, type the following and press <span class="keyboard">Enter</span>:</p>
+ 
+            <p><strong>Windows:</strong></p>
+            <pre><code>pip install numpy scipy</code></pre>
+ 
+            <p><strong>macOS/Linux:</strong></p>
+            <pre><code>pip3 install numpy scipy</code></pre>
+ 
+            <p>You should see output like:</p>
+            <div class="output-example">
+Collecting numpy
+  Downloading numpy-2.0.0-cp312-...
+Collecting scipy
+  Downloading scipy-1.14.0-cp312-...
+Successfully installed numpy-2.0.0 scipy-1.14.0
+            </div>
+ 
+            <h3>Verify Installation</h3>
+            <p>In the terminal, run:</p>
+            <pre><code>python -c "import numpy; import scipy; print('Packages OK')"</code></pre>
+            <p>Should print: <code>Packages OK</code></p>
+        </section>
+ 
+        <!-- SECTION 8: RUN SCRIPT -->
+        <section id="run-script">
+            <h2>8. Run the Script</h2>
+ 
+            <h3>Method 1: Using the Play Button (Easiest)</h3>
+            <ol>
+                <li>Make sure <code>crt_tv_audio.py</code> is open in the editor</li>
+                <li>Look at the <strong>top-right corner</strong> of VS Code</li>
+                <li>Click the <strong>"Play" button</strong> (triangle icon)
+                    <ul>
+                        <li>If you see a dropdown arrow, click the triangle, not the arrow</li>
+                    </ul>
+                </li>
+                <li>The script runs in the terminal at the bottom</li>
+            </ol>
+ 
+            <h3>Method 2: Using the Terminal</h3>
+            <ol>
+                <li>Open the integrated terminal (<span class="keyboard">Ctrl</span>+<span class="keyboard">`</span>)</li>
+                <li>Run:
+                    <pre><code>python crt_tv_audio.py</code></pre>
+                    Or on macOS/Linux:
+                    <pre><code>python3 crt_tv_audio.py</code></pre>
+                </li>
+            </ol>
+ 
+            <h3>Method 3: Using Run and Debug</h3>
+            <ol>
+                <li>Press <span class="keyboard">F5</span></li>
+                <li>If prompted, select "Python File"</li>
+                <li>The script runs with debugging enabled</li>
+                <li>You can set breakpoints by clicking left of line numbers</li>
+            </ol>
+ 
+            <h3>Method 4: Right-Click Context Menu</h3>
+            <ol>
+                <li>Right-click anywhere in the <code>crt_tv_audio.py</code> editor</li>
+                <li>Select <strong>"Run Python File in Terminal"</strong></li>
+            </ol>
+ 
+            <h3>Expected Output</h3>
+            <div class="output-example">
+============================================================
+Platform: Windows ARM64
+Python:   3.14.0 (64bit)
+NumPy:    2.0.0
+FFmpeg:   ffmpeg version 6.1-essentials_build-www.gyan.dev...
+============================================================
+ 
+Decoding: C:\Users\YourName\Documents\CRT-Audio\input.mp3
+Reading audio data...
+Applying TV EQ...
+Applying distortion...
+Adding hiss...
+Adding hum...
+Normalizing...
+Writing processed audio...
+Encoding: C:\Users\YourName\Documents\CRT-Audio\output_crt_tv.mp3
+ 
+Done!
+            </div>
+ 
+            <div class="success">
+                <div class="note-title">✅ Success!</div>
+                <p>Your processed file <code>output_crt_tv.mp3</code> will appear in the Explorer panel. Double-click to play it!</p>
+            </div>
+        </section>
+ 
+        <!-- SECTION 9: CUSTOMIZE -->
+        <section id="customize">
+            <h2>9. Customizing the Sound</h2>
+ 
+            <h3>Editing the Script in VS Code</h3>
+            <ul>
+                <li>Open <code>crt_tv_audio.py</code> in the editor</li>
+                <li>Use <span class="keyboard">Ctrl</span>+<span class="keyboard">G</span> (or <span class="keyboard">Cmd</span>+<span class="keyboard">G</span>) to "Go to Line"</li>
+                <li>Use <span class="keyboard">Ctrl</span>+<span class="keyboard">F</span> to find specific settings</li>
+            </ul>
+ 
+            <h3>Input/Output Files</h3>
+            <pre><code>INPUT_FILENAME = "input.mp3"        # Your source file
+OUTPUT_FILENAME = "output_crt_tv.mp3"  # Output file name</code></pre>
+ 
+            <h3>Lo-Fi Quality (Sample Rate)</h3>
+            <pre><code>TARGET_SAMPLE_RATE = 16000</code></pre>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Value</th>
+                        <th>Effect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>8000</td><td>Extreme lo-fi (tiny TV, very muffled)</td></tr>
+                    <tr><td>11025</td><td>Heavy lo-fi (small TV)</td></tr>
+                    <tr><td>16000</td><td>Standard lo-fi (default, 1960s TV)</td></tr>
+                    <tr><td>22050</td><td>Mild lo-fi (1970s console TV)</td></tr>
+                    <tr><td>32000</td><td>Light effect (1980s TV)</td></tr>
+                </tbody>
+            </table>
+ 
+            <h3>TV Speaker EQ</h3>
+            <pre><code>TV_SOUND = {
+    "output_gain_db": -2.0,       # Final volume (-6 quieter, 0 louder)
+    "band_low_hz": 150.0,         # Cut bass below this (higher = thinner)
+    "band_high_hz": 4500.0,       # Cut treble above this (lower = muffled)
+    "low_mid_split_hz": 300.0,    # Where "low" ends and "mid" begins
+    "mid_high_split_hz": 3000.0,  # Where "mid" ends and "high" begins
+    "low_gain_db": -8.0,          # Bass cut (more negative = less bass)
+    "mid_gain_db": +1.5,          # Midrange boost (voice clarity)
+    "high_gain_db": -12.0,        # Treble cut (more negative = duller)
+}</code></pre>
+ 
+            <h3>Noise Settings</h3>
+            <pre><code>NOISE = {
+    "hiss_level_db_rel": -32.0,   # Tape hiss (-20 loud, -40 subtle, None off)
+    "hum_level_db_rel": -38.0,    # 60Hz hum (-25 loud, -45 subtle, None off)
+    "hum_frequency_hz": 60.0,     # 60 for US, 50 for Europe
+    "hum_harmonics": 3,           # More = buzzier hum
+}</code></pre>
+ 
+            <h3>Distortion Settings</h3>
+            <pre><code>DISTORTION = {
+    "drive_db": 6.0,    # Overdrive amount (0 clean, 12 crunchy)
+    "mix": 0.7,         # Blend (0.0 none, 0.5 half, 1.0 full distortion)
+}</code></pre>
+ 
+            <h3>Preset: Tiny 1950s TV (Very Lo-Fi)</h3>
+            <pre><code>TARGET_SAMPLE_RATE = 8000
+ 
+TV_SOUND = {
+    "output_gain_db": -2.0,
+    "band_low_hz": 300.0,
+    "band_high_hz": 3500.0,
+    "low_mid_split_hz": 400.0,
+    "mid_high_split_hz": 2500.0,
+    "low_gain_db": -14.0,
+    "mid_gain_db": +3.0,
+    "high_gain_db": -18.0,
+}
+ 
+NOISE = {
+    "hiss_level_db_rel": -26.0,
+    "hum_level_db_rel": -30.0,
+    "hum_frequency_hz": 60.0,
+    "hum_harmonics": 4,
+}
+ 
+DISTORTION = {
+    "drive_db": 10.0,
+    "mix": 0.8,
+}</code></pre>
+ 
+            <h3>Preset: 1970s Console TV (Warmer)</h3>
+            <pre><code>TARGET_SAMPLE_RATE = 22050
+ 
+TV_SOUND = {
+    "output_gain_db": -1.0,
+    "band_low_hz": 80.0,
+    "band_high_hz": 6000.0,
+    "low_mid_split_hz": 250.0,
+    "mid_high_split_hz": 3500.0,
+    "low_gain_db": -4.0,
+    "mid_gain_db": +1.0,
+    "high_gain_db": -8.0,
+}
+ 
+NOISE = {
+    "hiss_level_db_rel": -38.0,
+    "hum_level_db_rel": -42.0,
+    "hum_frequency_hz": 60.0,
+    "hum_harmonics": 2,
+}
+ 
+DISTORTION = {
+    "drive_db": 3.0,
+    "mix": 0.4,
+}</code></pre>
+ 
+            <h3>Preset: Clean Vintage (Subtle Effect)</h3>
+            <pre><code>TARGET_SAMPLE_RATE = 32000
+ 
+TV_SOUND = {
+    "output_gain_db": -1.0,
+    "band_low_hz": 60.0,
+    "band_high_hz": 8000.0,
+    "low_mid_split_hz": 200.0,
+    "mid_high_split_hz": 4000.0,
+    "low_gain_db": -2.0,
+    "mid_gain_db": +0.5,
+    "high_gain_db": -4.0,
+}
+ 
+NOISE = {
+    "hiss_level_db_rel": -42.0,
+    "hum_level_db_rel": None,
+    "hum_frequency_hz": 60.0,
+    "hum_harmonics": 2,
+}
+ 
+DISTORTION = {
+    "drive_db": 2.0,
+    "mix": 0.3,
+}</code></pre>
+        </section>
+ 
+        <!-- SECTION 10: TROUBLESHOOTING -->
+        <section id="troubleshooting">
+            <h2>10. Troubleshooting</h2>
+ 
+            <div class="error">
+                <div class="note-title">❌ "Python" not found / No interpreter selected</div>
+                <p><strong>Symptom:</strong> VS Code shows "Select Python Interpreter" or script won't run.</p>
+                <p><strong>Fix:</strong></p>
+                <ol>
+                    <li>Press <span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">P</span></li>
+                    <li>Type: <code>Python: Select Interpreter</code></li>
+                    <li>Press Enter and select your Python version</li>
+                </ol>
+                <p>If no Python appears: Close VS Code, reinstall Python with "Add to PATH" checked, restart computer.</p>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ "ffmpeg" is not recognized</div>
+                <p><strong>Symptom:</strong> Script shows "ERROR: ffmpeg is required but was not found."</p>
+                <p><strong>Fix:</strong></p>
+                <ol>
+                    <li>Close VS Code completely</li>
+                    <li>Open a NEW PowerShell/Terminal window (not in VS Code)</li>
+                    <li>Run: <code>ffmpeg -version</code></li>
+                    <li>If it fails, reinstall FFmpeg (see Section 4)</li>
+                    <li>Restart your computer</li>
+                    <li>Reopen VS Code and try again</li>
+                </ol>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ ModuleNotFoundError: No module named 'numpy'</div>
+                <p><strong>Symptom:</strong> Import error when running the script.</p>
+                <p><strong>Fix:</strong></p>
+                <ol>
+                    <li>Open VS Code terminal (<span class="keyboard">Ctrl</span>+<span class="keyboard">`</span>)</li>
+                    <li>Run: <code>pip install numpy scipy</code></li>
+                    <li>If that fails, try: <code>python -m pip install numpy scipy</code></li>
+                    <li>Restart VS Code</li>
+                </ol>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ "pip" is not recognized</div>
+                <p><strong>Symptom:</strong> Terminal says pip is not found.</p>
+                <p><strong>Fix for Windows:</strong></p>
+                <pre><code>python -m pip install numpy scipy</code></pre>
+                <p><strong>Fix for macOS/Linux:</strong></p>
+                <pre><code>python3 -m pip install numpy scipy</code></pre>
+                <p>If still failing:</p>
+                <pre><code>python -m ensurepip --upgrade</code></pre>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ Input file not found</div>
+                <p><strong>Symptom:</strong> "ERROR: Input file not found"</p>
+                <p><strong>Fix:</strong></p>
+                <ol>
+                    <li>Check that <code>input.mp3</code> is in the SAME folder as the script</li>
+                    <li>Check the filename matches exactly (case-sensitive on macOS/Linux)</li>
+                    <li>Look at the Explorer panel — both files should be visible</li>
+                    <li>Update <code>INPUT_FILENAME</code> in the script to match your actual filename</li>
+                </ol>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ Permission denied</div>
+                <p><strong>Symptom:</strong> Cannot write output file.</p>
+                <p><strong>Fix for Windows:</strong> Right-click VS Code → "Run as Administrator"</p>
+                <p><strong>Fix for macOS/Linux:</strong> Check folder permissions with <code>ls -la</code></p>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ Output sounds wrong</div>
+                <p><strong>Too quiet:</strong> Change <code>output_gain_db</code> from <code>-2.0</code> to <code>0.0</code> or <code>+2.0</code></p>
+                <p><strong>Clipping/too loud:</strong> Change <code>output_gain_db</code> to <code>-4.0</code> or <code>-6.0</code></p>
+                <p><strong>Too much noise:</strong> Set <code>hiss_level_db_rel</code> to <code>-40.0</code> or <code>None</code></p>
+            </div>
+ 
+            <div class="error">
+                <div class="note-title">❌ Play button missing</div>
+                <p><strong>Symptom:</strong> No triangle/play button in top-right corner.</p>
+                <p><strong>Fix:</strong></p>
+                <ol>
+                    <li>Make sure Python extension is installed</li>
+                    <li>Make sure a <code>.py</code> file is open in the editor</li>
+                    <li>Click on the file tab to make it active</li>
+                    <li>Or press <span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">P</span>, type "Python: Run Python File"</li>
+                </ol>
+            </div>
+        </section>
+ 
+        <!-- SECTION 11: QUICK REFERENCE -->
+        <section id="quick-reference">
+            <h2>11. Quick Reference</h2>
+ 
+            <h3>VS Code Keyboard Shortcuts</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Windows/Linux</th>
+                        <th>macOS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Open folder</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">K</span>, <span class="keyboard">Ctrl</span>+<span class="keyboard">O</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">K</span>, <span class="keyboard">Cmd</span>+<span class="keyboard">O</span></td>
+                    </tr>
+                    <tr>
+                        <td>New file</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">N</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">N</span></td>
+                    </tr>
+                    <tr>
+                        <td>Save file</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">S</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">S</span></td>
+                    </tr>
+                    <tr>
+                        <td>Open terminal</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">`</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">`</span></td>
+                    </tr>
+                    <tr>
+                        <td>Run with debugging</td>
+                        <td><span class="keyboard">F5</span></td>
+                        <td><span class="keyboard">F5</span></td>
+                    </tr>
+                    <tr>
+                        <td>Command palette</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">P</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">Shift</span>+<span class="keyboard">P</span></td>
+                    </tr>
+                    <tr>
+                        <td>Go to line</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">G</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">G</span></td>
+                    </tr>
+                    <tr>
+                        <td>Find text</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">F</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">F</span></td>
+                    </tr>
+                    <tr>
+                        <td>Extensions</td>
+                        <td><span class="keyboard">Ctrl</span>+<span class="keyboard">Shift</span>+<span class="keyboard">X</span></td>
+                        <td><span class="keyboard">Cmd</span>+<span class="keyboard">Shift</span>+<span class="keyboard">X</span></td>
+                    </tr>
+                </tbody>
+            </table>
+ 
+            <h3>Terminal Commands</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task</th>
+                        <th>Command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Check Python version</td>
+                        <td><code>python --version</code></td>
+                    </tr>
+                    <tr>
+                        <td>Check FFmpeg version</td>
+                        <td><code>ffmpeg -version</code></td>
+                    </tr>
+                    <tr>
+                        <td>Install packages</td>
+                        <td><code>pip install numpy scipy</code></td>
+                    </tr>
+                    <tr>
+                        <td>Run the script</td>
+                        <td><code>python crt_tv_audio.py</code></td>
+                    </tr>
+                    <tr>
+                        <td>Navigate to folder</td>
+                        <td><code>cd path/to/folder</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+ 
+    <footer>
+        <p>CRT TV Audio Effect Processor — Created for vintage audio enthusiasts</p>
+        <p>Works on Windows (x64/ARM64), macOS, and Linux</p>
+    </footer>
+ 
+    <script>
+        // Initialize all tab groups
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers to all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    // Get the tab group container
+                    const tabGroup = this.closest('.tab-group');
+                    
+                    // Get the target panel ID from data attribute
+                    const targetId = this.getAttribute('data-tab');
+                    
+                    // Remove active class from all buttons in this group
+                    tabGroup.querySelectorAll('.tab-btn').forEach(function(btn) {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Remove active class from all panels in this group
+                    tabGroup.querySelectorAll('.tab-panel').forEach(function(panel) {
+                        panel.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Add active class to target panel
+                    const targetPanel = document.getElementById(targetId);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

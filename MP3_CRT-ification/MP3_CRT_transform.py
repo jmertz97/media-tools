@@ -27,6 +27,7 @@ from pathlib import Path
 import numpy as np
 from scipy.io import wavfile
 
+import helpstrings as hs
 
 # =====================================================================
 # INTERNAL UTILITIES
@@ -124,67 +125,18 @@ def print_ffmpeg_install_guide(plat_info: dict) -> None:
 
 	if plat_info["is_windows"]:
 		if plat_info["is_arm"]:
-			print("""
-Windows ARM64 detected. Choose one option:
- 
-OPTION 1 - Use x64 FFmpeg via emulation (easiest):
-  Open PowerShell and run:
-    winget install ffmpeg
- 
-OPTION 2 - Native ARM64 build (faster):
-  1. Download ARM64 build from:
-     https://github.com/AnimMouse/ffmpeg-autobuild/releases
-     (Look for "ffmpeg-*-win64-arm-gpl.zip")
-  2. Extract to C:\\ffmpeg
-  3. Add C:\\ffmpeg\\bin to your PATH:
-     - Press Win+X, select "System"
-     - Click "Advanced system settings"
-     - Click "Environment Variables"
-     - Edit "Path" and add: C:\\ffmpeg\\bin
-  4. Restart your terminal
-""")
+			print(hs.WINDOWS_ARM_HELP)
 		else:
-			print("""
-Windows x64 detected. Choose one option:
- 
-OPTION 1 - Using winget (recommended):
-  Open PowerShell and run:
-    winget install ffmpeg
- 
-OPTION 2 - Manual install:
-  1. Download from: https://www.gyan.dev/ffmpeg/builds/
-     (Get "ffmpeg-release-essentials.zip")
-  2. Extract to C:\\ffmpeg
-  3. Add C:\\ffmpeg\\bin to your PATH
-  4. Restart your terminal
-""")
+			print(hs.WINDOWS_NON_ARM_HELP)
 
 	elif plat_info["is_linux"]:
-		print("""
-Linux detected. Install using your package manager:
- 
-  Debian/Ubuntu:  sudo apt update && sudo apt install ffmpeg
-  Fedora:         sudo dnf install ffmpeg
-  Arch:           sudo pacman -S ffmpeg
- 
-For ARM64 (Raspberry Pi, etc.), the same commands work.
-""")
+		print(hs.LINUX_HELP)
 
 	elif plat_info["is_macos"]:
-		print("""
-macOS detected. Install using Homebrew:
- 
-  brew install ffmpeg
- 
-If you don't have Homebrew:
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-""")
+		print(hs.MAC_OS_HELP)
 
 	else:
-		print(f"""
-{plat_info['os_friendly']} detected.
-Please install ffmpeg using your system's package manager.
-""")
+		print(hs.OTHER_OS_HELP.format(os_name=plat_info["os_friendly"]))
 
 	print("=" * 60 + "\n")
 

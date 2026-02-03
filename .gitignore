@@ -1,3 +1,5 @@
 .idea/
 .vscode/
 MP3_CRT-ification/InputFile.txt
+*.mp3
+!MP3_CRT-ification/Black_Sabbath_-_Paranoid.mp3
